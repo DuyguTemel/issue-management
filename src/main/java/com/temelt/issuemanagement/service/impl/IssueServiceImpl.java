@@ -1,6 +1,7 @@
 package com.temelt.issuemanagement.service.impl;
 
 import com.temelt.issuemanagement.dto.IssueDto;
+import com.temelt.issuemanagement.dto.ProjectDto;
 import com.temelt.issuemanagement.entity.Issue;
 import com.temelt.issuemanagement.repository.IssueRepository;
 import com.temelt.issuemanagement.service.IssueService;
@@ -50,7 +51,13 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public Boolean delete(IssueDto issue) {
+    public Boolean delete(Long id) {
+        issueRepository.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public IssueDto update(Long id, ProjectDto projectDto) {
         return null;
     }
 }
