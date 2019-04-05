@@ -22,11 +22,11 @@ public class IssueManagementApplication {
 
         return new ModelMapper();
     }
-
+/*
     @Bean
     public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() {
         Jackson2RepositoryPopulatorFactoryBean factory = new Jackson2RepositoryPopulatorFactoryBean();
         factory.setResources(new Resource[]{new ClassPathResource("project.json")});
         return factory;
-    }
+    }*/
 }
