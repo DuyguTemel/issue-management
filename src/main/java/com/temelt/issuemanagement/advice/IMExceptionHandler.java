@@ -1,6 +1,7 @@
 package com.temelt.issuemanagement.advice;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,10 +14,12 @@ import java.util.Date;
 
 @ControllerAdvice
 @RestController
+@Slf4j
 public class IMExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<?> handleException(Exception ex, WebRequest request) {
+    public final ResponseEntity<?> handleExceptions(Exception ex, WebRequest request) {
+        log.error("ControllerAdvice-ExceptionHandler- PARAM ",ex);
         return new ResponseEntity<>(new ExceptionResponse(new Date(), ex.getMessage()), HttpStatus.EXPECTATION_FAILED);
     }
 }
