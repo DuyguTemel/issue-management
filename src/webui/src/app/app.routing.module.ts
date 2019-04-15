@@ -1,9 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {AppLayoutComponent} from "./_layout";
 
 const routes: Routes = [
   {
-    path:'',
+    path:'',component:AppLayoutComponent,
     children:[
       {path:'',pathMatch:'full',redirectTo:'dashboard' },
       {path:'dashboard',loadChildren:'./pages/dashboard/dashboard.module#DashboardModule' },

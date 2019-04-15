@@ -1,3 +1,16 @@
-<p>
-  {{projectMessage}}
-</p>
+<div class="content-wrapper">
+  <ngx-datatable
+    class="material"
+    [rows]="rows"
+    [columns]="[{id:'Project No',projectName:'Project Name'},{projectCode:'Project Code'},{manager:'Project Manager'}]"
+    [columnMode]="'force'"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [externalPaging]="true"
+    [count]="page.totalElements"
+    [offset]="page.pageNumber"
+    [limit]="page.size"
+    (page)='setPage($event)'>
+  </ngx-datatable>
+</div>
