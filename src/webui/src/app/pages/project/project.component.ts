@@ -24,10 +24,11 @@ export class ProjectComponent implements OnInit {
   }
 
   setPage(pageInfo){
-    this.page.pageNumber = pageInfo.offset;
+    this.page.number = pageInfo.offset;
     this.projectService.getAll(this.page).subscribe(pagedData => {
-      this.page = pagedData.page;
-      this.rows = pagedData.data;
+      this.page.size = pagedData.size;
+      this.page.number = pagedData.number;
+      this.rows = pagedData.content;
     });
   }
 
