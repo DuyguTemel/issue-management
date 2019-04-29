@@ -15,7 +15,7 @@ export class ProjectService {
   }
 
   getAll(page): Observable<any> {
-    return this.apiService.get(this.PROJECT_PATH+"/pagination",page).pipe(map(
+    return this.apiService.get(this.PROJECT_PATH + "/pagination", page).pipe(map(
       res => {
         if (res)
           return res;
