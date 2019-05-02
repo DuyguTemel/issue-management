@@ -2,7 +2,9 @@ package com.temelt.issuemanagement.service.impl;
 
 import com.temelt.issuemanagement.dto.ProjectDto;
 import com.temelt.issuemanagement.entity.Project;
+import com.temelt.issuemanagement.entity.User;
 import com.temelt.issuemanagement.repository.ProjectRepository;
+import com.temelt.issuemanagement.repository.UserRepository;
 import com.temelt.issuemanagement.service.ProjectService;
 import com.temelt.issuemanagement.util.TPage;
 import org.modelmapper.ModelMapper;
@@ -20,9 +22,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ModelMapper modelMapper;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, ModelMapper modelMapper) {
+    private final UserRepository userRepository;
+
+    public ProjectServiceImpl(ProjectRepository projectRepository, ModelMapper modelMapper, UserRepository userRepository) {
         this.projectRepository = projectRepository;
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -33,7 +38,11 @@ public class ProjectServiceImpl implements ProjectService {
         if (projectCheck != null)
             throw new IllegalArgumentException("Project Code already exist");
         Project p = modelMapper.map(projectDto, Project.class);
+        User user=userRepository.getOne(projectDto.getManagerId());
+
+
         p = projectRepository.save(p);
+        p.setManager(user);
         projectDto.setId(p.getId());
         return projectDto;
     }
@@ -90,5 +99,12 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(projectDb);
         return modelMapper.map(projectDb, ProjectDto.class);
 
+    }
+
+    @Override
+    public List<ProjectDto> getAll() {
+
+        List<Project> data = projectRepository.findAll();
+        return Arrays.asList( modelMapper.map(data, ProjectDto[].class));
     }
 }

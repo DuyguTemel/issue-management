@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiPaths.ProjectCtrl.CTRL)
@@ -37,6 +38,12 @@ public class ProjectController {
     @ApiOperation(value = "Get by Pagination Operation", response = ProjectDto.class)
     public ResponseEntity<TPage<ProjectDto>> getAllByPagination(Pageable pageable) {
         return ResponseEntity.ok(projectService.getAllPageable(pageable));
+    }
+
+    @GetMapping()
+    @ApiOperation(value = "Get All Operation", response = ProjectDto.class,responseContainer = "List")
+    public ResponseEntity<List<ProjectDto>> getAll() {
+        return ResponseEntity.ok(projectService.getAll());
     }
 
 

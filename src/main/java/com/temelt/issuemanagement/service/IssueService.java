@@ -1,9 +1,13 @@
 package com.temelt.issuemanagement.service;
 
+import com.temelt.issuemanagement.dto.IssueDetailDto;
 import com.temelt.issuemanagement.dto.IssueDto;
-import com.temelt.issuemanagement.dto.ProjectDto;
+import com.temelt.issuemanagement.dto.IssueHistoryDto;
+import com.temelt.issuemanagement.dto.IssueUpdateDto;
 import com.temelt.issuemanagement.util.TPage;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 
 public interface IssueService {
@@ -14,7 +18,9 @@ public interface IssueService {
 
     TPage<IssueDto> getAllPageable(Pageable pageable);
 
-    IssueDto update(Long id, ProjectDto projectDto);
+    IssueDetailDto update(Long id, IssueUpdateDto projectDto);
+
+    List<IssueHistoryDto> getByIssueIdAndOrOrderById(Long id);
 
     Boolean delete(Long id);
 }

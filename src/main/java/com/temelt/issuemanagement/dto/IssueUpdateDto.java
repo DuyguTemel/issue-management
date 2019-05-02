@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "Issue Data Transfer Object")
-public class IssueDto {
+public class IssueUpdateDto {
     @ApiModelProperty(required = true,value = "ID")
     private Long id;
     @ApiModelProperty(required = true,value = "Description")
@@ -25,8 +26,7 @@ public class IssueDto {
     @ApiModelProperty(required = true,value = "Issue Status")
     private IssueStatus issueStatus;
     @ApiModelProperty(required = true,value = "Assignee")
-    private UserDto assignee;
+    private Long assignee_id;
     @ApiModelProperty(required = true,value = "Project")
-    private ProjectDto project;
-    private Long projectId;
+    private Long project_id;
 }
