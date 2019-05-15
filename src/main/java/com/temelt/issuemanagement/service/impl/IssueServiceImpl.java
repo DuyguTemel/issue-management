@@ -1,6 +1,9 @@
 package com.temelt.issuemanagement.service.impl;
 
-import com.temelt.issuemanagement.dto.*;
+import com.temelt.issuemanagement.dto.IssueDetailDto;
+import com.temelt.issuemanagement.dto.IssueDto;
+import com.temelt.issuemanagement.dto.IssueHistoryDto;
+import com.temelt.issuemanagement.dto.IssueUpdateDto;
 import com.temelt.issuemanagement.entity.Issue;
 import com.temelt.issuemanagement.entity.IssueStatus;
 import com.temelt.issuemanagement.entity.User;
@@ -44,13 +47,17 @@ public class IssueServiceImpl implements IssueService {
         issue.setDate(new Date());
         issue.setIssueStatus(IssueStatus.OPEN);
 
+        try {
+            Issue issueEntity = modelMapper.map(issue, Issue.class);
 
-        Issue issueEntity = modelMapper.map(issue, Issue.class);
+            issueEntity.setProject(projectRepository.getOne(issue.getProjectId()));
+            issueEntity = issueRepository.save(issueEntity);
 
-        issueEntity.setProject(projectRepository.getOne(issue.getProjectId()));
-        issueEntity = issueRepository.save(issueEntity);
+            issue.setId(issueEntity.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        issue.setId(issueEntity.getId());
         return issue;
     }
 

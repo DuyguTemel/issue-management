@@ -1,9 +1,6 @@
 package com.temelt.issuemanagement.api;
 
-import com.temelt.issuemanagement.dto.IssueDetailDto;
-import com.temelt.issuemanagement.dto.IssueDto;
-import com.temelt.issuemanagement.dto.IssueUpdateDto;
-import com.temelt.issuemanagement.dto.ProjectDto;
+import com.temelt.issuemanagement.dto.*;
 import com.temelt.issuemanagement.entity.IssueStatus;
 import com.temelt.issuemanagement.service.impl.IssueServiceImpl;
 import com.temelt.issuemanagement.util.ApiPaths;
@@ -14,8 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping(ApiPaths.IssueCtrl.CTRL)
@@ -35,8 +31,8 @@ public class IssueController {
 
     @GetMapping("/status")
     @ApiOperation(value = "Get All Issue Status", response = String.class,responseContainer = "List")
-    public ResponseEntity<List<IssueStatus>> getAll() {
-        return ResponseEntity.ok(Arrays.asList(IssueStatus.values()));
+    public ResponseEntity<ArrayList<KeyValueObject>> getAll() {
+        return ResponseEntity.ok(statusMap);
     }
 
     @GetMapping("/{id}")
@@ -69,4 +65,15 @@ public class IssueController {
         return ResponseEntity.ok(issueService.delete(id));
     }
 
+
+
+    public static ArrayList<KeyValueObject> statusMap = new ArrayList<>();
+
+    static {
+        statusMap.add(new KeyValueObject("Open", "OPEN"));
+        statusMap.add(new KeyValueObject("Closed", "CLOSED"));
+        statusMap.add(new KeyValueObject("In Review", "IN_REVIEW"));
+        statusMap.add(new KeyValueObject("In Progress", "IN_PROGRESS"));
+        statusMap.add(new KeyValueObject("Resolved", "RESOLVED"));
+    }
 }

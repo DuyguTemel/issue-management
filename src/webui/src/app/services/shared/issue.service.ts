@@ -43,7 +43,6 @@ export class IssueService {
   }
 
   createIssue(issue): Observable<any> {
-    debugger;
     return this.apiService.post(this.ISSUE_PATH, issue).pipe(map(
       res => {
         if (res)

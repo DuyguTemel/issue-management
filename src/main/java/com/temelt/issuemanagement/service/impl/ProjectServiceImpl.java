@@ -37,13 +37,17 @@ public class ProjectServiceImpl implements ProjectService {
 
         if (projectCheck != null)
             throw new IllegalArgumentException("Project Code already exist");
-        Project p = modelMapper.map(projectDto, Project.class);
-        User user=userRepository.getOne(projectDto.getManagerId());
 
+        try{
+            Project p = modelMapper.map(projectDto, Project.class);
+            User user=userRepository.getOne(projectDto.getManagerId());
+            p = projectRepository.save(p);
+            p.setManager(user);
+            projectDto.setId(p.getId());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-        p = projectRepository.save(p);
-        p.setManager(user);
-        projectDto.setId(p.getId());
         return projectDto;
     }
 
@@ -66,7 +70,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public TPage<ProjectDto> getAllPageable(Pageable pageable) {
 
-        Page<Project> data = projectRepository.findAll(pageable);
+        Page<Project> data = projectRepository.findAllByOrderByIdAsc(pageable);
         TPage<ProjectDto> response = new TPage<ProjectDto>();
         response.setStat(data, Arrays.asList(modelMapper.map(data.getContent(), ProjectDto[].class)));
         return response;
@@ -89,14 +93,17 @@ public class ProjectServiceImpl implements ProjectService {
         if (projectDb == null)
             throw new IllegalArgumentException("Project does not exist ID:" + id);
 
-        Project projectCheck = projectRepository.getByProjectCodeAndIdNot(projectDto.getProjectCode(), id);
-        if (projectCheck != null)
-            throw new IllegalArgumentException("Project Code already exist");
+//        Project projectCheck = projectRepository.getByProjectCodeAndIdNot(projectDto.getProjectCode(), id);
+//        if (projectCheck != null)
+//            throw new IllegalArgumentException("Project Code already exist");
 
         projectDb.setProjectCode(projectDto.getProjectCode());
         projectDb.setProjectName(projectDto.getProjectName());
+        User user = new User();
+        user.setId(projectDto.getManagerId());
+        projectDb.setManager(user);
 
-        projectRepository.save(projectDb);
+                projectRepository.save(projectDb);
         return modelMapper.map(projectDb, ProjectDto.class);
 
     }

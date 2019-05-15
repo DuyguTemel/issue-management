@@ -26,7 +26,6 @@ public class IssueDto {
     private IssueStatus issueStatus;
     @ApiModelProperty(required = true,value = "Assignee")
     private UserDto assignee;
-    @ApiModelProperty(required = true,value = "Project")
-    private ProjectDto project;
+
     private Long projectId;
 }

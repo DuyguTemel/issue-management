@@ -42,7 +42,7 @@ export class IssueDetailComponent implements OnInit {
       {prop: 'id', name: 'No', maxWidth: 40},
       {prop: 'description', name: 'Description'},
       {prop: 'date', name: 'Issue Date', cellTemplate: this.tplDateCell},
-      {prop: 'issueStatus', name: 'Issue Status'},
+      {prop: 'issueStatus.name', name: 'Issue Status'},
       {prop: 'assignee.nameSurname', name: 'Assignee'},
       {prop: 'issue.project.projectName', name: 'Project Name'},
     ];
@@ -74,6 +74,7 @@ export class IssueDetailComponent implements OnInit {
   private loadIssueStatuses() {
     this.issueService.getAllIssueStatuses().subscribe(response => {
       this.issueStatusOptions = response;
+      debugger;
     });
   }
 

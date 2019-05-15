@@ -41,7 +41,7 @@ export class ProjectService {
   }
 
   getById(id): Observable<any> {
-    return this.apiService.get(this.PROJECT_PATH, id).pipe(map(
+    return this.apiService.get(this.PROJECT_PATH + '/' + id).pipe(map(
       res => {
         if (res)
           return res;
@@ -66,8 +66,22 @@ export class ProjectService {
     ));
   }
 
+  updateProject(project, id): Observable<any> {
+    return this.apiService.put(this.PROJECT_PATH + '/' + id, project).pipe(map(
+      res => {
+        if (res)
+          return res;
+        else {
+          console.log(res);
+          return {};
+        }
+      }
+    ));
+  }
+
   delete(id): Observable<any> {
-    return this.apiService.delete(this.PROJECT_PATH, +'/' + id).pipe(map(
+    console.log(id + 'dff');
+    return this.apiService.delete(this.PROJECT_PATH + '/' + id).pipe(map(
       res => {
         if (res)
           return res;

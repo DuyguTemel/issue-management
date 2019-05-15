@@ -46,12 +46,17 @@ export class ProjectComponent implements OnInit {
     this.cols = [{prop: 'id', name: 'No'},
       {prop: 'projectName', name: 'Project Name', sortable: false},
       {prop: 'projectCode', name: 'Project Code', sortable: false},
-      {prop: 'manager.nameSurname', name: 'Manager', sortable: false},
+      {prop: 'managerNameSurname', name: 'Manager', sortable: false},
       {prop: 'id', name: 'Actions', cellTemplate: this.tplProjectDeleteCell, sortable: false}];
+
     this.userService.getAll().subscribe(result => {
       console.log(result);
       this.managerOptions = result;
     });
+  }
+
+  clearData() {
+    this.projectForm.reset();
   }
 
   closeAndResetModal() {
@@ -70,16 +75,25 @@ export class ProjectComponent implements OnInit {
   }
 
   saveProject() {
+
     if (!this.projectForm.valid) {
       return;
     }
-    this.projectService.createProject(this.projectForm.value).subscribe(
-      response => {
-        this.setPage({offset: 0});
-        this.closeAndResetModal();
-        console.log(response);
-      }
-    );
+    if (this.projectForm.value['id'] === undefined) {
+      this.projectService.createProject(this.projectForm.value).subscribe(
+        response => {
+          this.setPage({offset: 0});
+          this.closeAndResetModal();
+        }
+      );
+    } else {
+      this.projectService.updateProject(this.projectForm.value, this.projectForm.value['id']).subscribe(
+        response => {
+          this.setPage({offset: 0});
+          this.closeAndResetModal();
+        }
+      );
+    }
   }
 
   showProjectDeleteConfirmation(value) {
@@ -96,4 +110,22 @@ export class ProjectComponent implements OnInit {
       }
     });
   }
+
+  openModalForUpdate(template: TemplateRef<any>, value) {
+    console.log(value);
+    this.projectService.getById(value).subscribe(resp => {
+      this.projectForm = this.updateProjectFormGroup(resp);
+    });
+    this.modalRef = this.modalService.show(template);
+  }
+
+  updateProjectFormGroup(response) {
+    return this.formBuilder.group({
+      id: response['id'],
+      projectName: response['projectName'],
+      projectCode: response['projectCode'],
+      managerId: response['managerId']
+    });
+  }
+
 }

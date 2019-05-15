@@ -11,7 +11,7 @@
         <div class="form-group">
           <label class="badge">Issue Status</label>
           <select formControlName="issueStatus" class="form-control" >
-            <option *ngFor="let val of issueStatusOptions" [value]="val">{{val}}</option>
+            <option *ngFor="let val of issueStatusOptions" [value]="val.value">{{val.key}}</option>
           </select>
         </div>
       </div>
@@ -88,7 +88,7 @@
     </ngx-datatable>
 
     <ng-template #tplDateCell let-row="row" let-value="value">
-      {{value | date: 'dd/MM/yyyy'}}
+      {{value | date: 'MM/dd//yyyy'}}
     </ng-template>
   </div>
 </div>
